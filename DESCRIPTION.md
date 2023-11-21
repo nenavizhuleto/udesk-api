@@ -2,61 +2,61 @@
 
 ## Auth
 
-> POST:         `/api/auth`                 Get token
+ POST:         `/api/auth`                 Get token
 
 ## Users
 
-> GET:          `/api/users`            	List all users
+ GET:          `/api/users`            	List all users
 
 ---
 
-> GET:          `/api/users/:id`        	Get user by id
+ GET:          `/api/users/:id`        	Get user by id
 
-> DELETE:       `/api/users/:id`        	Delete user by id
-
----
-
-> GET:          `/api/users/employees`  	List all employees
-
-> POST:         `/api/users/employees`  	Create new employee
+ DELETE:       `/api/users/:id`        	Delete user by id
 
 ---
 
-> GET:          `/api/users/executors`  	List all executors
+ GET:          `/api/users/employees`  	List all employees
 
-> POST:         `/api/users/executors`  	Create new executor
+ POST:         `/api/users/employees`  	Create new employee
 
 ---
 
-> GET:          `/api/users/admins`     	List all admins
+ GET:          `/api/users/executors`  	List all executors
 
-> POST:         `/api/users/admins`     	Create new admin
+ POST:         `/api/users/executors`  	Create new executor
+
+---
+
+ GET:          `/api/users/admins`     	List all admins
+
+ POST:         `/api/users/admins`     	Create new admin
 
 ---
 
 ## Companies
 
-> GET:          `/api/companies`                        List all companies
+ GET:          `/api/companies`                        List all companies
 
-> POST:         `/api/companies`                        Create new company
-
----
-
-> GET:          `/api/companies/:id`                    Get company by id
-
-> DELETE:       `/api/companies/:id`                    Delete company by id
+ POST:         `/api/companies`                        Create new company
 
 ---
 
-> GET:          `/api/companies/:id/departments`        List all company's departments
+ GET:          `/api/companies/:id`                    Get company by id
 
-> POST:         `/api/companies/:id/departments`        Create new company's department
+ DELETE:       `/api/companies/:id`                    Delete company by id
 
 ---
 
-> GET:          `/api/companies/departments/:id`        Get department by id
+ GET:          `/api/companies/:id/departments`        List all company's departments
 
-> DELETE:       `/api/companies/departments/:id`        Delete department by id
+ POST:         `/api/companies/:id/departments`        Create new company's department
+
+---
+
+ GET:          `/api/companies/departments/:id`        Get department by id
+
+ DELETE:       `/api/companies/departments/:id`        Delete department by id
 
 ---
 
