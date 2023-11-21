@@ -1,4 +1,4 @@
-use crate::{Error, ModelController, Result};
+use crate::{ModelController, Result};
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]

@@ -18,7 +18,7 @@ pub fn routes(mc: ModelController) -> Router {
             "/users/executors",
             get(list_executors).post(create_executor),
         )
-        .route("/users/admin", get(list_admins).post(create_admin))
+        .route("/users/admins", get(list_admins).post(create_admin))
         .with_state(mc)
 }
 

@@ -11,6 +11,5 @@ pub use routes_companies::routes as companies;
 pub use mw_auth::mw_require_auth as auth_mw;
 
 
-const AUTH_TOKEN: &str = "authtoken";
+const AUTH_TOKEN: &str = "token";
 const JWT_KEY: [u8; 6] = *b"secret";
-const AUTH_TEST_TOKEN: &str = "token";

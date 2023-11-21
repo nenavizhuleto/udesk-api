@@ -24,8 +24,8 @@ async fn main() -> Result<()> {
     })?;
 
     let mc = ModelController::new(db).await?;
-    let routes_apis = api::tickets(mc.clone())
-        .merge(api::users(mc.clone()))
+    let routes_apis = api::users(mc.clone())
+        .merge(api::tickets(mc.clone()))
         .merge(api::companies(mc.clone()))
         .route_layer(middleware::from_fn(api::auth_mw));
 

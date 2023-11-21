@@ -8,20 +8,32 @@ use crate::Result;
 
 pub fn routes(mc: ModelController) -> Router {
     Router::new()
-        .route("/tickets", get(list_tickets).post(create_ticket))
-        .route("/tickets/:id", get(get_ticket).delete(delete_ticket))
+        .route(
+            "/users/employees/:id/tickets",
+            get(list_employee_tickets).post(create_employee_ticket),
+        )
+        .route("/users/employees/tickets", get(list_tickets))
+        .route(
+            "/users/employees/tickets/:id",
+            get(get_ticket).delete(delete_ticket),
+        )
         .with_state(mc)
 }
 
-async fn create_ticket(
+async fn list_employee_tickets(
     State(mc): State<ModelController>,
+    Path(id): Path<i32>,
+) -> Result<Json<Vec<Ticket>>> {
+    let tickets = mc.list_tickets_by_user(id).await?;
+    Ok(Json(tickets))
+}
+
+async fn create_employee_ticket(
+    State(mc): State<ModelController>,
+    Path(id): Path<i32>,
     Json(ticket_fc): Json<TicketForCreate>,
 ) -> Result<Json<Ticket>> {
-    println!("INFO: {:<12} - create_ticket", "HANDLER");
-    println!("INFO: {:<12} - create_ticket: {:?}", "PAYLOAD", ticket_fc);
-
-    let ticket = mc.create_ticket(ticket_fc).await?;
-
+    let ticket = mc.create_ticket(id, ticket_fc).await?;
     Ok(Json(ticket))
 }
 
