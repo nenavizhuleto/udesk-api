@@ -1,0 +1,8 @@
+
+[env]
+RUST_LOG="udesk=debug"
+
+DATABASE_URL="postgres://udesk:udesk@127.0.0.1:5432/udesk"
+UDESK_ADDRESS="127.0.0.1:3000"
+UDESK_TOKEN_HEADER="token"
+UDESK_JWT_SECRET="udesk"

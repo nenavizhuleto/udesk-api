@@ -8,23 +8,25 @@ use axum::{
 use hmac::{Hmac, Mac};
 use jwt::VerifyWithKey;
 use sha2::Sha256;
+use tracing::debug;
 
-use crate::api::AUTH_TOKEN;
-use crate::{Error, Result};
+use crate::{config::config, Error, Result};
 
 pub async fn mw_require_auth<B>(
     headers: HeaderMap,
     req: Request<B>,
     next: Next<B>,
 ) -> Result<Response> {
-    println!("INFO: {:<12} - mw_require_auth", "MIDDLEWARE");
-    if !headers.contains_key(AUTH_TOKEN) {
+    debug!("{:<12} - mw_require_auth", "MIDDLEWARE");
+    let config = config();
+    if !headers.contains_key(&config.TOKEN_HEADER) {
+        debug!("{:<12} - mw_require_auth - headers doesn't contain token", "MIDDLEWARE");
         return Err(crate::Error::AuthFail);
     }
-    let auth_token = headers.get(AUTH_TOKEN).unwrap();
+    let auth_token = headers.get(&config.TOKEN_HEADER).unwrap();
 
-    let key: Hmac<Sha256> =
-        Hmac::new_from_slice(&crate::api::JWT_KEY).map_err(|_| Error::AuthTokenVerifyError)?;
+    let key: Hmac<Sha256> = Hmac::new_from_slice(&config.JWT_SECRET.clone().into_bytes())
+        .map_err(|_| Error::AuthTokenVerifyError)?;
     let token_str = auth_token
         .to_str()
         .map_err(|_| Error::AuthTokenVerifyError)?;
@@ -34,6 +36,7 @@ pub async fn mw_require_auth<B>(
 
     // FIXME: Actually validate token
     if claims["access"] != "access" {
+        debug!("{:<12} - mw_require_auth - access denied: {:?}", "MIDDLEWARE", claims["access"]);
         return Err(crate::Error::AuthFail);
     }
 

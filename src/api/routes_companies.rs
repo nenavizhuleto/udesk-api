@@ -2,6 +2,7 @@ use axum::extract::Path;
 use axum::routing::get;
 use axum::Router;
 use axum::{extract::State, Json};
+use tracing::debug;
 
 use crate::model::{Company, CompanyForCreate, Department, DepartmentForCreate, ModelController};
 use crate::Result;
@@ -25,8 +26,8 @@ async fn create_company(
     State(mc): State<ModelController>,
     Json(company_fc): Json<CompanyForCreate>,
 ) -> Result<Json<Company>> {
-    println!("INFO: {:<12} - create_company", "HANDLER");
-    println!("INFO: {:<12} - create_company: {:?}", "PAYLOAD", company_fc);
+    debug!("{:<12} - create_company", "HANDLER");
+    debug!("{:<12} - create_company: {:?}", "PAYLOAD", company_fc);
 
     let company = mc.create_company(company_fc).await?;
 
@@ -35,11 +36,11 @@ async fn create_company(
 
 async fn create_company_department(
     State(mc): State<ModelController>,
-    Path(id): Path<i32>,
+    Path(id): Path<i64>,
     Json(dep_fc): Json<DepartmentForCreate>,
 ) -> Result<Json<Department>> {
-    println!("INFO: {:<12} - create_company", "HANDLER");
-    println!("INFO: {:<12} - create_company: {:?}", "PAYLOAD", dep_fc);
+    debug!("{:<12} - create_company", "HANDLER");
+    debug!("{:<12} - create_company: {:?}", "PAYLOAD", dep_fc);
 
     let dep = mc.create_department(id, dep_fc).await?;
 
@@ -48,33 +49,33 @@ async fn create_company_department(
 
 async fn get_company(
     State(mc): State<ModelController>,
-    Path(id): Path<i32>,
+    Path(id): Path<i64>,
 ) -> Result<Json<Company>> {
-    println!("INFO: {:<12} - get_company", "HANDLER");
+    debug!("{:<12} - get_company", "HANDLER");
     let company = mc.get_company(id).await?;
     Ok(Json(company))
 }
 
 async fn list_company_departments(
     State(mc): State<ModelController>,
-    Path(id): Path<i32>,
+    Path(id): Path<i64>,
 ) -> Result<Json<Vec<Department>>> {
-    println!("INFO: {:<12} - get_company", "HANDLER");
+    debug!("{:<12} - get_company", "HANDLER");
     let company = mc.list_departments_by_company(id).await?;
     Ok(Json(company))
 }
 
 async fn get_company_department(
     State(mc): State<ModelController>,
-    Path(id): Path<i32>,
+    Path(id): Path<i64>,
 ) -> Result<Json<Department>> {
-    println!("INFO: {:<12} - get_company", "HANDLER");
+    debug!("{:<12} - get_company", "HANDLER");
     let dep = mc.get_department(id).await?;
     Ok(Json(dep))
 }
 
 async fn list_companies(State(mc): State<ModelController>) -> Result<Json<Vec<Company>>> {
-    println!("INFO: {:<12} - list_company", "HANDLER");
+    debug!("{:<12} - list_company", "HANDLER");
 
     let companies = mc.list_companies().await?;
 
@@ -83,9 +84,9 @@ async fn list_companies(State(mc): State<ModelController>) -> Result<Json<Vec<Co
 
 async fn delete_company(
     State(mc): State<ModelController>,
-    Path(id): Path<i32>,
-) -> Result<Json<i32>> {
-    println!("INFO: {:<12} - delete_company", "HANDLER");
+    Path(id): Path<i64>,
+) -> Result<Json<i64>> {
+    debug!("{:<12} - delete_company", "HANDLER");
 
     let rows_affected = mc.delete_company(id).await?;
 
@@ -94,9 +95,9 @@ async fn delete_company(
 
 async fn delete_company_department(
     State(mc): State<ModelController>,
-    Path(id): Path<i32>,
-) -> Result<Json<i32>> {
-    println!("INFO: {:<12} - delete_company", "HANDLER");
+    Path(id): Path<i64>,
+) -> Result<Json<i64>> {
+    debug!("{:<12} - delete_company", "HANDLER");
 
     let rows_affected = mc.delete_department(id).await?;
 

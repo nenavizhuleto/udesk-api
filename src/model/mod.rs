@@ -7,17 +7,17 @@ use crate::Result;
 
 pub use company::*;
 pub use department::*;
-use sqlx::MySqlPool;
+use sqlx::PgPool;
 pub use ticket::*;
 pub use user::*;
 
 #[derive(Clone)]
 pub struct ModelController {
-    db: MySqlPool,
+    db: PgPool,
 }
 
 impl ModelController {
-    pub async fn new(db: MySqlPool) -> Result<Self> {
+    pub async fn new(db: PgPool) -> Result<Self> {
         Ok(Self { db })
     }
 }
